@@ -1,0 +1,42 @@
+module pp
+
+imports
+
+  libstratego-gpp
+  runtime/refactoring/-
+  pp/Entity-scala-parenthesize
+  pp/Entity-scala-pp
+
+rules
+
+  editor-format:
+    (node, _, ast, path, project-path) -> (filename, result)
+    with
+      ext      := <get-extension> path
+    ; filename := <guarantee-extension(|$[pp.[ext]])> path
+    ; result   := <pp-debug> node
+
+rules
+  
+  pp-Entity-scala-string =
+    parenthesize-Entity-scala
+    ; prettyprint-Entity-scala-start-symbols
+    ; !V([], <id>)
+    ; box2text-string(|120)
+      
+  pp-partial-Entity-scala-string =
+    parenthesize-Entity-scala
+    ; prettyprint-Entity-scala
+    ; !V([], <id>)
+    ; box2text-string(|120)
+      
+  pp-debug :
+    ast -> result
+    with
+       result := <pp-Entity-scala-string> ast
+    <+ <bottomup(try(not(is-string); not(is-list); not(pp-Entity-scala-string); debug(!"cannot pp ")))> ast
+    ;  result := ""
+
+rules
+  
+  construct-textual-change = construct-textual-change(pp-partial-Entity-scala-string, parenthesize, override-reconstruction, resugar)
