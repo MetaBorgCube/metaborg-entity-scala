@@ -2,13 +2,17 @@ module analysis
 
 rules // Analysis
 
+  external java-strategy(|)
+
   editor-analyze:
-    (ast, path, project-path) -> (ast', error*, warning*, info*)
+    (ast, path, project-path) -> (ast', error*, [warning*, warning], info*)
     with
       ast'     := <id> ast
     ; error*   := <collect-all(constraint-error)> ast'
     ; warning* := <collect-all(constraint-warning)> ast'
     ; info*    := <collect-all(constraint-info)> ast'
+    ; msg      := <java-strategy>(ast, path, project-path)
+    ; warning  := (<?IDs(<id>);Hd>ast, msg)
   
   constraint-error = fail
   constraint-warning = fail
