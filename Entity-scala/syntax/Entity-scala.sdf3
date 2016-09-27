@@ -10,4 +10,14 @@ context-free start-symbols
 
 context-free syntax
   
-  Start.Empty = <>
+  Start.IDs = [[{IDs "\n"}*]]
+  
+  IDs.Def = [def [ID]]
+  
+  IDs.Ref = [[ID]]
+
+  ID = Keyword {reject}
+
+lexical syntax
+  
+  Keyword = "def"  

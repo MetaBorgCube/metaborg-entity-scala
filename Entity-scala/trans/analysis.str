@@ -14,13 +14,18 @@ rules // Analysis
   constraint-warning = fail
   constraint-info = fail
   
+  constraint-info = ?Def(ident);!(ident, $[a message on [ident]])
+  
 rules // Editor services
   
   editor-resolve:
-    (node, position, ast, path, project-path) -> <fail>
+    (node, position, ast, path, project-path) -> decl
+      where
+        Ref(ident) := node;
+        decl := <?IDs(<id>);filter(?Def(ident));Hd;?Def(<id>)>ast
 
   editor-hover:
-    (node, position, ast, path, project-path) -> <fail>
+    (node, position, ast, path, project-path) -> node
 
 rules // Debugging
 
