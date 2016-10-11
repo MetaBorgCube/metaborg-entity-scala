@@ -30,3 +30,6 @@ language:
     - stratego-sdf
     - -la
     - strc
+build:
+  useBuildSystemSpec: true
+  
