@@ -11,4 +11,5 @@ language
 
   provider : target/metaborg/stratego.ctree
   provider : target/metaborg/stratego-javastrat.jar
-  provider : ../Scalaproject/target/Scalaproject-0.1.0-SNAPSHOT.jar //includes the scala code, but not the scala std lib!
+  provider : target/metaborg/Scalaproject-0.1.0-SNAPSHOT.jar
+  provider : target/metaborg/scala-library-2.11.5.jar
