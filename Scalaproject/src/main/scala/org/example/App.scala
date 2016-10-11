@@ -16,7 +16,7 @@ object App {
     println("concat arguments = " + foo(args))
   }
 
-  def runAsStrategy(context: Context, inputFromEditor: IStrategoTerm): IStrategoAppl = {
+  def runAsStrategy(context: Context, inputFromEditor: IStrategoTerm): IStrategoTerm = {
     // output to the Spoofax console is handled via Context.getIOAgent.printError
     context.getIOAgent.printError("Hello, World! Your input was: ")
     context.getIOAgent.printError(inputFromEditor.toString)
@@ -24,6 +24,8 @@ object App {
     // tuple: (filename as IStrategoString, contents as IStrategoString)
     // trivial strategy: don't output any files == None()
     context.getFactory.makeAppl(context.getFactory.makeConstructor("None", 0))
+    
+    return context.getFactory.makeString("Regards from scala-strategy")
   }
 
 }

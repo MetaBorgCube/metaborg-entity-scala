@@ -4,6 +4,7 @@ import org.spoofax.interpreter.terms.IStrategoTerm;
 import org.spoofax.interpreter.terms.ITermFactory;
 import org.strategoxt.lang.Context;
 import org.strategoxt.lang.Strategy;
+import org.example.*;
 
 /**
  * Example Java strategy implementation.
@@ -26,7 +27,10 @@ public class java_strategy_0_0 extends Strategy {
   public IStrategoTerm invoke(Context context, IStrategoTerm current) {
     context.getIOAgent().printError("Input for java-strategy: " + current);
     ITermFactory factory = context.getFactory();
-    return factory.makeString("Regards from java-strategy");
+    
+    return App$.MODULE$.runAsStrategy(context, current);
+    
+//    return factory.makeString("Regards from java-strategy");
   }
 
 }
