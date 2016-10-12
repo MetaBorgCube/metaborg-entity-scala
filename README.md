@@ -1,17 +1,19 @@
 This works at the commandline build.
 
-In Eclipse:
-- import the parent POM as a project, and `mvn verify -Dmaven.test.skip=true` on that do trigger a maven build of both the Scala project and the Spoofax project.
-- right click Spoofax project > `Spoofax (Meta)` > `Load Language` to see changes in Eclipse editors
+In Eclipse (once):
+1. change `editor/Main.esv` commenting out first line and uncommenting second line:
+```
+  provider : target/metaborg/Scalaproject-0.1.0-SNAPSHOT.jar // use this for commandline maven build
+//  provider : ../Scalaproject/target/Scalaproject-0.1.0-SNAPSHOT.jar // use this in Eclipse (bypasses the copying step by using a relative path, but only works inside eclipse)
+```
+(though, do not commit this)
+2. in the Scalaproject use the maven-build with `package -DskipTests` to generate a jar fast
 
-Fast version Eclipse:
-- make a jar of the scala project
-- copy paste jar to target/metaborg
-- hit cmd+alt+b (which only reloads the language as nothing changed)
+In Eclipse (every build):
+1. build scalaproject with maven (generates jar)
+2. build spoofax project with spoofax (cmd+alt+b), reloads language with new jar.
 
-TODO in Eclipse (Option A):
-- import jars with Ant build step, remove the maven copy artifacts build step http://metaborg.org/en/latest/source/langdev/manual/config.html
-- make the scala build in Eclipse produce a jar
+Note: after a spoofax clean the scala-library will not be there anymore, so run the full maven build in the parent pom file.
 
-TODO in Eclipse (Option B):
-- make mvn build of parent project + reloading of language easier
+TODO:
+- shortkeys maven builds in Eclipse

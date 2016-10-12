@@ -11,5 +11,6 @@ language
 
   provider : target/metaborg/stratego.ctree
   provider : target/metaborg/stratego-javastrat.jar
-  provider : target/metaborg/Scalaproject-0.1.0-SNAPSHOT.jar
+  provider : target/metaborg/Scalaproject-0.1.0-SNAPSHOT.jar // use this for commandline maven build
+//  provider : ../Scalaproject/target/Scalaproject-0.1.0-SNAPSHOT.jar // use this in Eclipse (bypasses the copying step by using a relative path, but only works inside eclipse)
   provider : target/metaborg/scala-library-2.11.5.jar
