@@ -2,35 +2,11 @@ module analysis
 
 rules // Analysis
 
-  external java-strategy(|)
-  
   external editor-analyze(|)
 
-//  editor-analyze:
-//    (ast, path, project-path) -> (ast', error*, [warning*, warning], info*)
-//    with
-//      (ast',_,_) := <java-strategy>(ast, path, project-path)
-//    ; error*     := <collect-all(constraint-error)> ast'
-//    ; warning*   := <collect-all(constraint-warning)> ast'
-//    ; info*      := <collect-all(constraint-info)> ast'
-//    ; warning    := (<?IDs(<id>);Hd>ast, "x" )
-//  
-//  constraint-error = fail
-//  constraint-warning = fail
-//  constraint-info = fail
-//  
-//  constraint-info = ?Def(ident);!(ident, $[a message on [ident]])
-  
 rules // Editor services
   
   external editor-resolve(|)
-  
-//  editor-resolve:
-//    (node, position, ast, path, project-path) -> decl
-//      where
-//        <debug>(node, position, ast, path, project-path);
-//        Ref(ident) := node;
-//        decl := <?IDs(<id>);filter(?Def(ident));Hd;?Def(<id>)>ast
 
   editor-hover:
     (node, position, ast, path, project-path) -> node
