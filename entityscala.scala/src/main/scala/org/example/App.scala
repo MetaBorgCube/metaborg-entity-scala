@@ -29,11 +29,11 @@ object App {
     // trivial strategy: don't output any files == None()
     context.getFactory.makeAppl(context.getFactory.makeConstructor("None", 0))
 
-    val scalaVal = Term.fromStratego(inputFromEditor);
+    val scalaVal = STerm.fromStratego(inputFromEditor);
     context.getIOAgent.printError(scalaVal.toString());
 
     val ast = inputFromEditor.getAllSubterms()(0);
-    val scalaAst = Term.fromStratego(ast);
+    val scalaAst = STerm.fromStratego(ast);
     context.getIOAgent.printError(scalaAst.toString());
 
     val origin = ImploderAttachment.get(tryGetOrigin(ast));
@@ -51,7 +51,7 @@ object App {
     val astOrig = tryGetOrigin(ast);
     context.getIOAgent.printError(astOrig.toString());
 
-    val strategoVal = Term.toStratego(scalaVal)(context)
+    val strategoVal = STerm.toStratego(scalaVal)(context)
 
     return strategoVal
     //    return context.getFactory.makeString("Regards from scala-strategy")
@@ -63,7 +63,7 @@ object App {
   def editorAnalyze(strTerm: IStrategoTerm)(implicit context: Context): IStrategoTerm = {
     //    debug("editorAnalyze")
     //    debug(strTerm.toString())
-    val term = Term.fromStratego(strTerm)
+    val term = STerm.fromStratego(strTerm)
     //    debug(term.toString())
     val tt3 = Editor.toTupleOfThree(term).getOrElse(throw new Exception("No Tuple of Three provided."))
     //    debug(tt3.toString())
@@ -74,7 +74,7 @@ object App {
     //    debug(ar.toString())
     val ar2 = Editor.fromAnalysisResult(ar)
     //    debug(ar2.toString())
-    val strAr = Term.toStratego(ar2)
+    val strAr = STerm.toStratego(ar2)
     //    debug(strAr.toString())
     strAr
   }
@@ -86,6 +86,6 @@ object App {
     ar
   }
 
-  def debug(msg: java.lang.String)(implicit context: Context) = context.getIOAgent.printError(msg);
+  def debug(msg: String)(implicit context: Context) = context.getIOAgent.printError(msg);
 
 }

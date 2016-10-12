@@ -2,37 +2,37 @@ package org.example
 
 import org.spoofax.interpreter.terms.IStrategoTerm
 
-case class IDs(defsRefs: scala.collection.immutable.List[DefRef], o: Origin)
+case class IDs(defsRefs: List[DefRef], o: Origin)
 
 sealed abstract class DefRef
-case class Def(id: java.lang.String, o: Option[Origin]) extends DefRef
-case class Ref(id: java.lang.String, o: Option[Origin]) extends DefRef
+case class Def(id: String, o: Option[Origin]) extends DefRef
+case class Ref(id: String, o: Option[Origin]) extends DefRef
 
 case class IDsAnalysisResult(
   ast: IDs,
-  errors: scala.collection.immutable.List[EditorMessage],
-  warnings: scala.collection.immutable.List[EditorMessage],
-  notes: scala.collection.immutable.List[EditorMessage])
+  errors: List[EditorMessage],
+  warnings: List[EditorMessage],
+  notes: List[EditorMessage])
 
 object EntityScala {
 
-  def termToIDs(term: Term): IDs = term match {
-    case Cons("IDs", List(ids, _) :: Nil, Some(o)) => IDs(ids.map(termToDefRef), o)
+  def termToIDs(term: STerm): IDs = term match {
+    case SCons("IDs", SList(ids, _) :: Nil, Some(o)) => IDs(ids.map(termToDefRef), o)
     case _ => throw new Exception("Failed parsing")
   }
 
-  def termToDefRef(term: Term): DefRef = term match {
-    case Cons("Def", String(id, o) :: Nil, _) => Def(id, o)
-    case Cons("Ref", String(id, o) :: Nil, _) => Ref(id, o)
+  def termToDefRef(term: STerm): DefRef = term match {
+    case SCons("Def", SString(id, o) :: Nil, _) => Def(id, o)
+    case SCons("Ref", SString(id, o) :: Nil, _) => Ref(id, o)
     case _ => throw new Exception("Failed parsing")
   }
 
-  def IDsToTerm(ids: IDs): Term =
-    Cons("IDs", List(ids.defsRefs.map(defRefToTerm), None) :: Nil, Some(ids.o))
+  def IDsToTerm(ids: IDs): STerm =
+    SCons("IDs", SList(ids.defsRefs.map(defRefToTerm), None) :: Nil, Some(ids.o))
 
-  def defRefToTerm(dr: DefRef): Term = dr match {
-    case Def(id, o) => Cons("Def", String(id, o) :: Nil, None)
-    case Ref(id, o) => Cons("Ref", String(id, o) :: Nil, None)
+  def defRefToTerm(dr: DefRef): STerm = dr match {
+    case Def(id, o) => SCons("Def", SString(id, o) :: Nil, None)
+    case Ref(id, o) => SCons("Ref", SString(id, o) :: Nil, None)
   }
 
   def toAnalysisResult(ar: IDsAnalysisResult): AnalysisResult =

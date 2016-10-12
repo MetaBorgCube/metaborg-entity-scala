@@ -3,35 +3,35 @@ package org.example
 import org.spoofax.interpreter.terms.IStrategoTerm
 
 case class TupleOfThree(
-  ast: Term,
-  path: java.lang.String,
-  projectPath: java.lang.String)
+  ast: STerm,
+  path: String,
+  projectPath: String)
 
 case class AnalysisResult(
-  ast: Term,
-  errors: scala.collection.immutable.List[EditorMessage],
-  warnings: scala.collection.immutable.List[EditorMessage],
-  notes: scala.collection.immutable.List[EditorMessage])
+  ast: STerm,
+  errors: List[EditorMessage],
+  warnings: List[EditorMessage],
+  notes: List[EditorMessage])
 
 case class EditorMessage(
   origin: Origin,
-  msg: java.lang.String)
+  msg: String)
 
 object Editor {
 
-  def toTupleOfThree(term: Term): Option[TupleOfThree] = term match {
-    case Tuple(ast :: String(path, _) :: String(projectPath, _) :: Nil, _) => Some(TupleOfThree(ast, path, projectPath))
+  def toTupleOfThree(term: STerm): Option[TupleOfThree] = term match {
+    case STuple(ast :: SString(path, _) :: SString(projectPath, _) :: Nil, _) => Some(TupleOfThree(ast, path, projectPath))
     case _ => None
   }
 
-  def fromAnalysisResult(ar: AnalysisResult): Term =
-    Tuple(scala.collection.immutable.List(
+  def fromAnalysisResult(ar: AnalysisResult): STerm =
+    STuple(List(
       ar.ast,
-      List(ar.errors.map(fromEditorMessage), None),
-      List(ar.warnings.map(fromEditorMessage), None),
-      List(ar.notes.map(fromEditorMessage), None)), None)
+      SList(ar.errors.map(fromEditorMessage), None),
+      SList(ar.warnings.map(fromEditorMessage), None),
+      SList(ar.notes.map(fromEditorMessage), None)), None)
 
-  def fromEditorMessage(em: EditorMessage): Term =
-    Tuple(scala.collection.immutable.List(String("origin dummy", Some(em.origin)), String(em.msg, None)), None)
+  def fromEditorMessage(em: EditorMessage): STerm =
+    STuple(List(SString("origin dummy", Some(em.origin)), SString(em.msg, None)), None)
 
 }
