@@ -80,9 +80,10 @@ object App {
   }
 
   def editorAnalyze(ids: IDs)(implicit context: Context): IDsAnalysisResult = {
+    val model = Model.buildModel(ids)
+    val errors = Model.getErrors(model)
     val idsDesugared = IDs(Def("addedDuringAnalysis", None) :: ids.defsRefs, ids.o)
-    val warnings = ids.defsRefs.collect { case a: Def => a }.map { x => EditorMessage(x.o.get, "some error message on definition " + x.id) }
-    val ar = IDsAnalysisResult(idsDesugared, Nil, warnings, Nil)
+    val ar = IDsAnalysisResult(idsDesugared, errors, Nil, Nil)
     ar
   }
 
