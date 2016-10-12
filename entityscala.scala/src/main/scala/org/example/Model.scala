@@ -35,4 +35,11 @@ object Model {
     unresolvedReferences
   }
 
+  def resolveReference(m: Model, ref: Origin): Option[Origin] = {
+    val mref = m.originRefs.get(ref)
+    val mdef = mref.map { case MRef(id) => MDef(id) }
+    val defOrigin = mdef.flatMap { d => m.defOrigins.get(d) }
+    defOrigin
+  }
+
 }

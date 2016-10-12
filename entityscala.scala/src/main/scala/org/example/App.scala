@@ -61,21 +61,13 @@ object App {
     editorAnalyze(strTerm)(context)
 
   def editorAnalyze(strTerm: IStrategoTerm)(implicit context: Context): IStrategoTerm = {
-    //    debug("editorAnalyze")
-    //    debug(strTerm.toString())
     val term = STerm.fromStratego(strTerm)
-    //    debug(term.toString())
     val tt3 = Editor.toTupleOfThree(term).getOrElse(throw new Exception("No Tuple of Three provided."))
-    //    debug(tt3.toString())
     val entityscala = EntityScala.termToIDs(tt3.ast)
-    //    debug(entityscala.toString())
     val entityscalaAnalyzed = editorAnalyze(entityscala)
     val ar = EntityScala.toAnalysisResult(entityscalaAnalyzed)
-    //    debug(ar.toString())
     val ar2 = Editor.fromAnalysisResult(ar)
-    //    debug(ar2.toString())
     val strAr = STerm.toStratego(ar2)
-    //    debug(strAr.toString())
     strAr
   }
 
@@ -85,6 +77,25 @@ object App {
     val idsDesugared = IDs(Def("addedDuringAnalysis", None) :: ids.defsRefs, ids.o)
     val ar = IDsAnalysisResult(idsDesugared, errors, Nil, Nil)
     ar
+  }
+
+  def editorResolve(context: Context, strTerm: IStrategoTerm): IStrategoTerm =
+    editorResolve(strTerm)(context)
+
+  def editorResolve(strTerm: IStrategoTerm)(implicit context: Context): IStrategoTerm = {
+    val term = STerm.fromStratego(strTerm)
+    val tt5 = Editor.toTupleOfFive(term).getOrElse(throw new Exception("No Tuple of Five provided."))
+    val entityscala = EntityScala.termToIDs(tt5.ast)
+    val ref = tt5.node.o
+    val resolveTo = editorResolve(entityscala, ref)
+    STerm.toStratego(SString("dummy string", resolveTo))
+  }
+
+  def editorResolve(ids: IDs, ref: Option[Origin])(implicit context: Context): Option[Origin] = ref match {
+    case None => None
+    case Some(r) =>
+      val model = Model.buildModel(ids)
+      Model.resolveReference(model, r)
   }
 
   def debug(msg: String)(implicit context: Context) = context.getIOAgent.printError(msg);

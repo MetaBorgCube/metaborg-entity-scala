@@ -2,6 +2,13 @@ package org.example
 
 import org.spoofax.interpreter.terms.IStrategoTerm
 
+case class TupleOfFive(
+  node: STerm,
+  position: STerm,
+  ast: STerm,
+  path: String,
+  projectPath: String)
+
 case class TupleOfThree(
   ast: STerm,
   path: String,
@@ -18,6 +25,12 @@ case class EditorMessage(
   msg: String)
 
 object Editor {
+
+  def toTupleOfFive(term: STerm): Option[TupleOfFive] = term match {
+    case STuple(node :: position :: ast :: SString(path, _) :: SString(projectPath, _) :: Nil, _) =>
+      Some(TupleOfFive(node, position, ast, path, projectPath))
+    case _ => None
+  }
 
   def toTupleOfThree(term: STerm): Option[TupleOfThree] = term match {
     case STuple(ast :: SString(path, _) :: SString(projectPath, _) :: Nil, _) => Some(TupleOfThree(ast, path, projectPath))
