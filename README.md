@@ -15,5 +15,5 @@ In Eclipse (every build):
 
 Note: after a spoofax clean the scala-library will not be there anymore, so run the full maven build in the parent pom file.
 
-TODO:
-- shortkeys maven builds in Eclipse
+Suggestion:
+- bind `Run Maven Build` to shortkey `Ctrl+Alt+B` (on mac) 
