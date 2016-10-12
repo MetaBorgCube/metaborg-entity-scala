@@ -8,6 +8,12 @@ sealed abstract class DefRef
 case class Def(id: java.lang.String, o: Option[Origin]) extends DefRef
 case class Ref(id: java.lang.String, o: Option[Origin]) extends DefRef
 
+case class IDsAnalysisResult(
+  ast: IDs,
+  errors: scala.collection.immutable.List[EditorMessage],
+  warnings: scala.collection.immutable.List[EditorMessage],
+  notes: scala.collection.immutable.List[EditorMessage])
+
 object EntityScala {
 
   def termToIDs(term: Term): IDs = term match {
@@ -20,13 +26,16 @@ object EntityScala {
     case Cons("Ref", String(id, o) :: Nil, _) => Ref(id, o)
     case _ => throw new Exception("Failed parsing")
   }
-  
-  def IDsToTerm(ids: IDs): Term = 
+
+  def IDsToTerm(ids: IDs): Term =
     Cons("IDs", List(ids.defsRefs.map(defRefToTerm), None) :: Nil, Some(ids.o))
 
   def defRefToTerm(dr: DefRef): Term = dr match {
     case Def(id, o) => Cons("Def", String(id, o) :: Nil, None)
     case Ref(id, o) => Cons("Ref", String(id, o) :: Nil, None)
   }
+
+  def toAnalysisResult(ar: IDsAnalysisResult): AnalysisResult =
+    AnalysisResult(IDsToTerm(ar.ast), ar.errors, ar.warnings, ar.notes)
 
 }

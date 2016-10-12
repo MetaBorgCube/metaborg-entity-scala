@@ -51,31 +51,39 @@ object App {
     val astOrig = tryGetOrigin(ast);
     context.getIOAgent.printError(astOrig.toString());
 
-    val strategoVal = Term.toStratego(scalaVal)(context.getFactory)
+    val strategoVal = Term.toStratego(scalaVal)(context)
 
     return strategoVal
     //    return context.getFactory.makeString("Regards from scala-strategy")
   }
 
-  def editorAnalyze(context: Context, strTerm: IStrategoTerm): IStrategoTerm = {
-    debug("editorAnalyze")(context)
-    debug(strTerm.toString())(context)
+  def editorAnalyze(context: Context, strTerm: IStrategoTerm): IStrategoTerm =
+    editorAnalyze(strTerm)(context)
+
+  def editorAnalyze(strTerm: IStrategoTerm)(implicit context: Context): IStrategoTerm = {
+    //    debug("editorAnalyze")
+    //    debug(strTerm.toString())
     val term = Term.fromStratego(strTerm)
-    debug(term.toString())(context)
+    //    debug(term.toString())
     val tt3 = Editor.toTupleOfThree(term).getOrElse(throw new Exception("No Tuple of Three provided."))
-    debug(tt3.toString())(context)
+    //    debug(tt3.toString())
     val entityscala = EntityScala.termToIDs(tt3.ast)
-    debug(entityscala.toString())(context)
-    val entityscalaAnalyzed = IDs(Def("addedDuringAnalysis", None) :: entityscala.defsRefs, entityscala.o)
-    val analyzedAst = EntityScala.IDsToTerm(entityscalaAnalyzed)
-    val warnings = entityscala.defsRefs.collect { case a: Def => a }.map { x => EditorMessage(x.o.get, "some error message on definition " + x.id) }
-    val ar = AnalysisResult(analyzedAst, Nil, warnings, Nil)
-    debug(ar.toString())(context)
+    //    debug(entityscala.toString())
+    val entityscalaAnalyzed = editorAnalyze(entityscala)
+    val ar = EntityScala.toAnalysisResult(entityscalaAnalyzed)
+    //    debug(ar.toString())
     val ar2 = Editor.fromAnalysisResult(ar)
-    debug(ar2.toString())(context)
-    val strAr = Term.toStratego(ar2)(context.getFactory)
-    debug(strAr.toString())(context)
+    //    debug(ar2.toString())
+    val strAr = Term.toStratego(ar2)
+    //    debug(strAr.toString())
     strAr
+  }
+
+  def editorAnalyze(ids: IDs)(implicit context: Context): IDsAnalysisResult = {
+    val idsDesugared = IDs(Def("addedDuringAnalysis", None) :: ids.defsRefs, ids.o)
+    val warnings = ids.defsRefs.collect { case a: Def => a }.map { x => EditorMessage(x.o.get, "some error message on definition " + x.id) }
+    val ar = IDsAnalysisResult(idsDesugared, Nil, warnings, Nil)
+    ar
   }
 
   def debug(msg: java.lang.String)(implicit context: Context) = context.getIOAgent.printError(msg);

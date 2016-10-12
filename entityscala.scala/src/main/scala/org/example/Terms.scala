@@ -11,6 +11,7 @@ import org.spoofax.interpreter.terms.IStrategoAppl
 import org.spoofax.interpreter.terms.ITermFactory
 import org.spoofax.jsglr.client.imploder.ImploderAttachment
 import org.spoofax.terms.attachments.OriginAttachment.tryGetOrigin
+import org.strategoxt.lang.Context
 
 sealed abstract class Term {
   val o: Option[Origin]
@@ -78,7 +79,8 @@ object Term {
         origin.getRightToken.getEndOffset))
   }
 
-  def toStratego(term: Term)(implicit factory: ITermFactory): IStrategoTerm = {
+  def toStratego(term: Term)(implicit context: Context): IStrategoTerm = {
+    val factory = context.getFactory
     val strategoTerm = term match {
       case Int(i, o) => factory.makeInt(i)
       case Real(d, o) => factory.makeReal(d)
