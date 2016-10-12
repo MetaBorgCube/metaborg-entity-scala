@@ -16,8 +16,8 @@ object Model {
     val defs = ids.defsRefs.collect { case a: Def => a }
     val refs = ids.defsRefs.collect { case a: Ref => a }
     val defOrigins = defs.map(d => MDef(d.id) -> d.o).collect { case (a, Some(b)) => (a, b) }.toMap
-    val refOrigins = refs.map(d => MRef(d.id) -> d.o).collect { case (a, Some(b)) => (a, b) }.toMap
-    val originRefs = refOrigins.map(_.swap)
+    val originRefs = refs.map(d => d.o -> MRef(d.id) ).collect { case (Some(a), b) => (a, b) }.toMap
+    val refOrigins = originRefs.map(_.swap)
     Model(defs, refs, defOrigins, refOrigins, originRefs)
   }
 
