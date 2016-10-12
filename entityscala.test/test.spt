@@ -1,7 +1,16 @@
 module test
 
-language entityscala
+language Entity-scala
 
 test parse [[
-
+  def foo
 ]] parse succeeds
+
+test parse fails [[
+  def foo ++++
+]] parse fails
+
+test resolve to [[
+  def [[foo]]
+  [[foo]]
+]] resolve #2 to #1
