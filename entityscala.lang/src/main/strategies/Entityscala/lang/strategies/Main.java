@@ -1,4 +1,4 @@
-package Entityscala.strategies;
+package entityscala.lang.strategies;
 
 import org.strategoxt.lang.Context;
 

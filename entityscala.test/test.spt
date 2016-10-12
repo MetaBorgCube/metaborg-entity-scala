@@ -1,0 +1,7 @@
+module test
+
+language entityscala
+
+test parse [[
+
+]] parse succeeds

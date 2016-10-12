@@ -1,28 +1,47 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
+>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>entityscala</artifactId>
+  <groupId>org.example</groupId>
+  <artifactId>entityscala.eclipse</artifactId>
   <version>0.1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
+  <packaging>eclipse-plugin</packaging>
 
   <parent>
     <groupId>org.metaborg</groupId>
-    <artifactId>parent</artifactId>
+    <artifactId>parent.eclipse.language</artifactId>
     <version>2.1.0-SNAPSHOT</version>
     <relativePath />
   </parent>
 
-  <modules>
-    <module>entityscala.scala</module>
-    <module>entityscala.lang</module>
-    <module>entityscala.eclipse</module>
-    <module>entityscala.eclipse.feature</module>
-    <module>entityscala.eclipse.site</module>
-    <module>entityscala.test</module>
-  </modules>
+  <properties>
+    <lang.unpack.artifactId>entityscala.lang</lang.unpack.artifactId>
+    <lang.baseline.unpack.skip>true</lang.baseline.unpack.skip>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>entityscala.lang</artifactId>
+      <version>${project.version}</version>
+      <type>spoofax-language</type>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.metaborg</groupId>
+        <artifactId>spoofax-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 
   <repositories>
     <repository>
@@ -80,5 +99,4 @@
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
-
 </project>

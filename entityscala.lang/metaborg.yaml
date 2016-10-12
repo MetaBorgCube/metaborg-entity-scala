@@ -1,5 +1,5 @@
 ---
-id: org.example:Entityscala:0.1.0-SNAPSHOT
+id: org.example:entityscala.lang:0.1.0-SNAPSHOT
 name: Entity-scala
 metaborgVersion: 2.1.0-SNAPSHOT
 dependencies:
