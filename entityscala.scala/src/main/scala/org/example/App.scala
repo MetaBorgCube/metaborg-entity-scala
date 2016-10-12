@@ -66,8 +66,10 @@ object App {
     debug(tt3.toString())(context)
     val entityscala = EntityScala.termToIDs(tt3.ast)
     debug(entityscala.toString())(context)
-    val warnings = entityscala.defsRefs.collect { case a: Def => a }.map { x => EditorMessage(x.o, "some error message on definition "+x.id) }
-    val ar = AnalysisResult(tt3.ast, Nil, warnings, Nil)
+    val entityscalaAnalyzed = IDs(Def("addedDuringAnalysis", None) :: entityscala.defsRefs, entityscala.o)
+    val analyzedAst = EntityScala.IDsToTerm(entityscalaAnalyzed)
+    val warnings = entityscala.defsRefs.collect { case a: Def => a }.map { x => EditorMessage(x.o.get, "some error message on definition " + x.id) }
+    val ar = AnalysisResult(analyzedAst, Nil, warnings, Nil)
     debug(ar.toString())(context)
     val ar2 = Editor.fromAnalysisResult(ar)
     debug(ar2.toString())(context)
