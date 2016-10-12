@@ -7,12 +7,11 @@ rules // Analysis
   editor-analyze:
     (ast, path, project-path) -> (ast', error*, [warning*, warning], info*)
     with
-      ast'     := <id> ast
-    ; error*   := <collect-all(constraint-error)> ast'
-    ; warning* := <collect-all(constraint-warning)> ast'
-    ; info*    := <collect-all(constraint-info)> ast'
-    ; msg      := <java-strategy>(ast, path, project-path)
-    ; warning  := (<?IDs(<id>);Hd>ast, msg)
+      (ast',_,_) := <java-strategy>(ast, path, project-path)
+    ; error*     := <collect-all(constraint-error)> ast'
+    ; warning*   := <collect-all(constraint-warning)> ast'
+    ; info*      := <collect-all(constraint-info)> ast'
+    ; warning    := (<?IDs(<id>);Hd>ast, "x" )
   
   constraint-error = fail
   constraint-warning = fail

@@ -55,8 +55,8 @@ object App {
     
     val strategoVal = Term.toStratego(scalaVal)(context.getFactory)
     
-//    return strategoVal
-    return context.getFactory.makeString("Regards from scala-strategy")
+    return strategoVal
+//    return context.getFactory.makeString("Regards from scala-strategy")
   }
 
 }

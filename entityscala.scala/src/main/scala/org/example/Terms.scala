@@ -84,10 +84,10 @@ object Term {
       case Real(d, o) => factory.makeReal(d)
       case String(s, o) => factory.makeString(s)
       case List(l, o) => factory.makeList(l.map(toStratego(_)).asJava)
-      case Tuple(l, o) => factory.makeList(l.map(toStratego(_)).asJava)
+      case Tuple(l, o) => factory.makeTuple(l.map(toStratego(_)).toArray, factory.makeList())
       case Cons(c, l, o) => {
         val constr = factory.makeConstructor(c, l.length)
-        val children = l.map(toStratego(_)).asJava.toArray.asInstanceOf[Array[IStrategoTerm]]
+        val children = l.map(toStratego(_)).toArray
         factory.makeAppl(constr, children, factory.makeList())
       }
     }
