@@ -7,9 +7,8 @@ rules // Analysis
 rules // Editor services
   
   external editor-resolve(|)
-
-  editor-hover:
-    (node, position, ast, path, project-path) -> node
+  
+  external editor-hover(|)
 
 rules // Debugging
 

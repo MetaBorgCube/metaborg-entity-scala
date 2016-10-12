@@ -58,6 +58,16 @@ object App {
       Model.resolveReference(model, r)
   }
 
+  def editorHover(context: Context, strTerm: IStrategoTerm): IStrategoTerm =
+    editorHover(strTerm)(context)
+
+  def editorHover(strTerm: IStrategoTerm)(implicit context: Context): IStrategoTerm = {
+    val term = STerm.fromStratego(strTerm)
+    val tt5 = Editor.toTupleOfFive(term).getOrElse(throw new Exception("No Tuple of Five provided."))
+    val entityscala = EntityScala.termToIDs(tt5.ast)
+    STerm.toStratego(SString("<b>Hovering</b><br/>" + STerm.toStratego(tt5.node).toString() + "<br/>" + tt5.node.toString(), None))
+  }
+
   def debug(msg: String)(implicit context: Context) = context.getIOAgent.printError(msg);
 
 }
