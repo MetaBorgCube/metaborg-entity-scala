@@ -4,7 +4,7 @@
   xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>entityscala.build</artifactId>
+  <artifactId>entityscala</artifactId>
   <version>0.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
@@ -16,8 +16,8 @@
   </parent>
 
   <modules>
-    <module>Scalaproject</module>
-    <module>Entity-scala</module>
+    <module>entityscala.scala</module>
+    <module>entityscala.lang</module>
   </modules>
 
   <repositories>
