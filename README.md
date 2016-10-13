@@ -21,3 +21,5 @@ Note: after a spoofax clean the scala-library will not be there anymore, so run 
 
 Suggestion:
 - bind `Run Maven Build` to shortkey, for example `Ctrl+Alt+B` (on mac) 
+
+Documentation on Scala with Spoofax 1.5 Ant build: https://github.com/stg-tud/type-pragmatics/blob/master/spoofax-scala-interop/Spoofax%20and%20Scala.md
