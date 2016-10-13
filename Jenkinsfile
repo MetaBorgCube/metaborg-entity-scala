@@ -1,3 +1,13 @@
+properties([
+  pipelineTriggers([
+    upstream(
+      threshold: hudson.model.Result.SUCCESS,
+      upstreamProjects: '/metaborg/spoofax-releng/master'
+    )
+  ]),
+  disableConcurrentBuilds()
+])
+
 node {
   stage('Checkout') {
     checkout scm
