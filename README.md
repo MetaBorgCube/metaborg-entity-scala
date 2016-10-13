@@ -1,3 +1,5 @@
+[![Build status](http://buildfarm.metaborg.org/job/metaborgcube/job/metaborg-entity-scala/job/master/badge/icon)](http://buildfarm.metaborg.org/job/metaborgcube/job/metaborg-entity-scala/job/master/)
+
 This works at the commandline build.
 
 In Eclipse (once):
