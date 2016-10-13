@@ -28,6 +28,6 @@ node {
   }
   
   stage('Cleanup') {
-    exec 'git clean -ddffxx'
+    sh 'git clean -ddffxx'
   }
 }
